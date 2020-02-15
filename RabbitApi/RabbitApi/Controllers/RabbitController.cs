@@ -4,90 +4,52 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RabbitApi.Models;
 
 namespace RabbitApi.Controllers
 {
-    public class RabbitController : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class RabbitController : ControllerBase
     {
-        // GET: Rabbit
-        public ActionResult Index()
+        // GET: api/Rabbit
+        [HttpGet]
+        public IEnumerable<Rabbit> Get()
         {
-            return View();
+            Rabbit r1 = new Rabbit(Rabbit.FurColors.Grey, Rabbit.EyeColors.Black, Rabbit.Gender.Female);
+            Rabbit r2 = new Rabbit(Rabbit.FurColors.Black, Rabbit.EyeColors.Blue, Rabbit.Gender.Male);
+            Rabbit r3 = new Rabbit(Rabbit.FurColors.Brown, Rabbit.EyeColors.Red, Rabbit.Gender.Male);
+            
+            List<Rabbit> rabbit = new List<Rabbit>();
+            rabbit.Add(r1);
+            rabbit.Add(r2);
+            rabbit.Add(r3);
+            return rabbit;
         }
 
-        // GET: Rabbit/Details/5
-        public ActionResult Details(int id)
+        // GET: api/Rabbit/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
-            return View();
+            return "value";
         }
 
-        // GET: Rabbit/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Rabbit/Create
+        // POST: api/Rabbit
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public void Post([FromBody] string value)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
-        // GET: Rabbit/Edit/5
-        public ActionResult Edit(int id)
+        // PUT: api/Rabbit/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            return View();
         }
 
-        // POST: Rabbit/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Rabbit/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Rabbit/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
