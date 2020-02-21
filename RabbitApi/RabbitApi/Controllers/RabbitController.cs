@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,31 +38,7 @@ namespace RabbitApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public Rabbit Get(int id)
         {
-            try
-            {
-                Rabbit item = rabbits[id];
-                
-                return item;
-
-            }
-            catch (Exception)
-            {
-
-                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
-            }
-            
-            
-
-
-            //try
-            //{
-            //    return rabbits[id - 1];
-            //}
-            //catch (Exception)
-            //{
-
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); ;
-            //} 
+           return rabbits[id - 1];
         }
 
         // POST: api/Rabbit
@@ -87,33 +62,6 @@ namespace RabbitApi.Controllers
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-        }
-    }
-
-    [Serializable]
-    internal class HttpResponseException : Exception
-    {
-        private object notFound;
-
-        public HttpResponseException()
-        {
-        }
-
-        public HttpResponseException(object notFound)
-        {
-            this.notFound = notFound;
-        }
-
-        public HttpResponseException(string message) : base(message)
-        {
-        }
-
-        public HttpResponseException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected HttpResponseException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
