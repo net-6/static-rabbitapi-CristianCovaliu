@@ -36,9 +36,13 @@ namespace RabbitApi.Controllers
 
         // GET: api/Rabbit/5
         [HttpGet("{id}", Name = "Get")]
-        public Rabbit Get(int id)
+        public IActionResult Get(int id)
         {
-           return rabbits[id - 1];
+            if (id >= rabbits.Count())
+            {
+                return NotFound("Wrong id number");
+            }
+            return Ok(rabbits[id]);
         }
 
         // POST: api/Rabbit
@@ -55,14 +59,29 @@ namespace RabbitApi.Controllers
 
         // PUT: api/Rabbit/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Rabbit model)
         {
+            if (ModelState.IsValid)
+            {           
+                rabbits[id].Age=model.Age;
+                rabbits[id].EyeColor=model.EyeColor;
+                rabbits[id].FurColor=model.FurColor;
+                rabbits[id].Genders=model.Genders;
+                return Ok();
+            }
+            return BadRequest();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (rabbits.Contains(rabbits[id]))
+            {
+                rabbits.Remove(rabbits[id]);
+                return Ok();
+            }
+            return NotFound("Wrong id number");
         }
     }
 }
